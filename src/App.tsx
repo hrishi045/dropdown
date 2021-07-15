@@ -1,7 +1,13 @@
 import React from "react";
+import Dropdown from "./components/Dropdown";
+import opt from "./data.json";
 
-function App() {
-  return <div className="App">My App</div>;
-}
+const App = () => {
+  return (
+    <div className="App">
+      <Dropdown options={opt} />
+    </div>
+  );
+};
 
 export default App;
