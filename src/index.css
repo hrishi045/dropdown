@@ -9,3 +9,17 @@
     font-family: "Nunito", sans-serif;
   }
 }
+
+@layer components {
+  .dd-label {
+    @apply mt-2 text-xs text-gray-700 font-bold uppercase;
+  }
+
+  .dd-input_text {
+    @apply px-4 py-2 rounded border-2 border-gray-300 focus:border-blue-300 focus:bg-gray-50 font-medium focus:shadow-sm focus:outline-none my-1;
+  }
+
+  .dd-button {
+    @apply px-5 py-3 font-bold text-sm rounded cursor-pointer uppercase focus:outline-none hover:bg-gray-300 bg-gray-100 text-gray-700 my-1;
+  }
+}

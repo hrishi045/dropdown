@@ -18,6 +18,7 @@ export interface DropdownOption {
 
 interface Props {
   options: DropdownOption[];
+  onChange: (selected: DropdownOption[]) => void;
 }
 
 const Dropdown = (props: Props) => {
@@ -30,6 +31,8 @@ const Dropdown = (props: Props) => {
   const searchField = useRef<HTMLInputElement>(null);
   const [focused, setFocused] = useState(false);
 
+  const { onChange } = props;
+
   // Could also be modified to asynchronously fetch options
   const fuse = useMemo(
     () =>
@@ -38,6 +41,10 @@ const Dropdown = (props: Props) => {
       }),
     [props.options]
   );
+
+  useEffect(() => {
+    onChange(selected);
+  }, [selected, onChange]);
 
   // Handle mouse option selections
   const onSelected = (event: MouseEvent<HTMLElement>) => {
@@ -115,7 +122,7 @@ const Dropdown = (props: Props) => {
     >
       <div
         className={cx(
-          "rounded border-2 border-gray-400 p-4 flex gap-2 flex-wrap font-semibold",
+          "rounded border-2 border-gray-400 p-4 flex gap-2 flex-wrap font-semibold cursor-text",
           {
             "bg-gray-50 border-blue-500": focused,
           }
@@ -162,7 +169,7 @@ const Dropdown = (props: Props) => {
               .map((option, i) => (
                 <div
                   className={cx("px-4 py-2 hover:bg-gray-300 cursor-pointer", {
-                    "bg-gray-500 text-gray-50 hover:text-gray-800":
+                    "bg-gray-400 hover:text-gray-800":
                       keyboardSelected % 10 === i,
                   })}
                   key={i}
@@ -173,12 +180,22 @@ const Dropdown = (props: Props) => {
                 </div>
               ))}
           </div>
-          <div className="flex gap-2">
-            <button onClick={goPrevPage}>Prev</button>
-            <div>
-              {page} of {Math.ceil(searchResults.length) / 10}
+          <div className="flex gap-2 mx-4 my-2 text-xs font-bold text-gray-600">
+            <button
+              className="px-2 py-1 hover:bg-gray-300 rounded-sm"
+              onClick={goPrevPage}
+            >
+              &lt;
+            </button>
+            <div className="py-1">
+              {page} of {Math.ceil(searchResults.length / 10)}
             </div>
-            <button onClick={goNextPage}>Next</button>
+            <button
+              className="px-2 py-1 hover:bg-gray-300 rounded-sm"
+              onClick={goNextPage}
+            >
+              &gt;
+            </button>
           </div>
         </div>
       )}
