@@ -37,7 +37,7 @@ const Login = () => {
   };
 
   return (
-    <div className="flex-1 px-12">
+    <div className="max-w-screen-sm mx-auto px-4">
       <h1 className="text-2xl text-bold text-gray-800 my-2">Login</h1>
       <form className="flex flex-col" onSubmit={handleSubmit(onSubmit)}>
         <label className="dd-label" htmlFor="email">

@@ -54,8 +54,8 @@ export const Home = () => {
   };
 
   return (
-    <div className="flex">
-      <div className="flex-1 px-12">
+    <div className="max-w-screen-sm mx-auto">
+      <div className="px-4">
         <h1 className="text-2xl text-bold text-gray-800 my-2">
           Create an account
         </h1>

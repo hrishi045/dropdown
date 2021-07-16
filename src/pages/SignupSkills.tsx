@@ -59,7 +59,7 @@ const SignupSkills = () => {
   };
 
   return (
-    <div className="flex-1 px-12">
+    <div className="max-w-screen-sm mx-auto px-4">
       <h1 className="text-2xl text-bold text-gray-800 my-2">Select Skills</h1>
       <Dropdown onChange={handleChange} options={skills} max={8} />
       <span className={classNames({ "text-red-700": notEnough })}>
