@@ -11,7 +11,6 @@ import Navbar from "./components/Navbar";
 
 const App = () => {
   const [token, setToken] = useCookie("dd_token", "");
-  console.log(token);
 
   const handleSetToken = (v: string) => {
     setToken(v);

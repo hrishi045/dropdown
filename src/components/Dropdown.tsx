@@ -80,7 +80,6 @@ const Dropdown = (props: Props) => {
 
   // Handle key events when focused
   const handleKeyEvent = (e: KeyboardEvent) => {
-    console.log(e.key);
     if (e.key === "ArrowUp") {
       if (keyboardSelected === (page - 1) * 10) goPrevPage();
 
@@ -113,9 +112,6 @@ const Dropdown = (props: Props) => {
       }
     }
   };
-
-  console.log(focused);
-  console.log("keyboardFocused", keyboardSelected);
 
   return (
     <div

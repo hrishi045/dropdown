@@ -26,7 +26,6 @@ export const Home = () => {
       },
     })
       .then(async (res) => {
-        console.log(res);
         await fetch("https://fechallenge.dev.bhyve.io/user/signin", {
           body: JSON.stringify({
             username,

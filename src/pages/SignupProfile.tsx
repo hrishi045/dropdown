@@ -13,12 +13,6 @@ const SignupProfile = () => {
   const history = useHistory();
   const onSubmit = async (data: any) => {
     const { firstName, lastName } = data;
-    console.log(
-      JSON.stringify({
-        firstName,
-        lastName,
-      })
-    );
     await fetch("https://fechallenge.dev.bhyve.io/user/basic/profile", {
       body: JSON.stringify({
         firstName,

@@ -20,11 +20,6 @@ const SignupSkills = () => {
       await fetch("https://fechallenge.dev.bhyve.io/skills")
         .then((res) => res.json())
         .then(async (res) => {
-          console.log(
-            res.map((x: any) => {
-              return { id: x.id, text: x.skillName };
-            })
-          );
           setSkills(
             res.map((x: any) => {
               return { id: x.id.toString(), text: x.skillName };
