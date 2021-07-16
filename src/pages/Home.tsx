@@ -66,7 +66,6 @@ export const Home = () => {
             className="dd-input_text"
             id="email"
             type="email"
-            defaultValue="testing4235464@gmail.com"
             {...register("email", { required: true })}
           />
           {errors.email && <span>This field is required</span>}
@@ -77,7 +76,6 @@ export const Home = () => {
             className="dd-input_text"
             id="password"
             type="password"
-            defaultValue="Some@#thi54"
             {...register("password", {
               required: true,
               minLength: 8,
