@@ -19,6 +19,7 @@ export interface DropdownOption {
 interface Props {
   options: DropdownOption[];
   onChange: (selected: DropdownOption[]) => void;
+  max: number;
 }
 
 const Dropdown = (props: Props) => {
@@ -51,7 +52,10 @@ const Dropdown = (props: Props) => {
     const opt = props.options.filter(
       (opt) => opt.id === (event.target as HTMLElement).id
     )[0];
-    if (selected.filter((x) => x.id === opt.id).length === 0)
+    if (
+      selected.filter((x) => x.id === opt.id).length === 0 &&
+      selected.length < props.max
+    )
       setSelected((cur) => [...cur, opt]);
   };
 
@@ -95,7 +99,10 @@ const Dropdown = (props: Props) => {
       const opt = searchResults.slice(10 * (page - 1), 10 * page)[
         keyboardSelected
       ];
-      if (selected.filter((x) => x.id === opt.id).length === 0) {
+      if (
+        selected.filter((x) => x.id === opt.id).length === 0 &&
+        selected.length < props.max
+      ) {
         setSelected((cur) => [...cur, opt]);
         setSearchTerm("");
       }
@@ -112,7 +119,7 @@ const Dropdown = (props: Props) => {
 
   return (
     <div
-      className="m-8 text-sm font-medium"
+      className="text-sm font-medium"
       tabIndex={-1}
       onBlur={(e: FocusEvent<HTMLDivElement>) => {
         if (!e.currentTarget?.contains(e.relatedTarget as Node)) {

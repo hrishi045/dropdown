@@ -1,6 +1,7 @@
+import { useContext } from "react";
 import { useForm } from "react-hook-form";
 import { useHistory } from "react-router-dom";
-import { getCookie, setCookie } from "react-use-cookie";
+import AuthContext from "../helpers/auth";
 
 const SignupProfile = () => {
   const {
@@ -8,6 +9,7 @@ const SignupProfile = () => {
     handleSubmit,
     formState: { errors },
   } = useForm();
+  const auth = useContext(AuthContext);
   const history = useHistory();
   const onSubmit = async (data: any) => {
     const { firstName, lastName } = data;
@@ -24,14 +26,13 @@ const SignupProfile = () => {
       }),
       method: "POST",
       headers: {
-        Authorization: `Bearer ${getCookie("dd_token")}`,
+        Authorization: `Bearer ${auth.token}`,
         "Content-Type": "application/json",
         accept: "*/*",
       },
     })
       .then((res) => res.json())
       .then((res) => {
-        // setCookie("dd_token", res.accessToken);
         history.push("/signup/skills");
       })
       .catch((err) => {

@@ -1,6 +1,7 @@
+import { useContext } from "react";
 import { useForm } from "react-hook-form";
 import { useHistory } from "react-router-dom";
-import { setCookie } from "react-use-cookie";
+import AuthContext from "../helpers/auth";
 
 export const Home = () => {
   const {
@@ -9,21 +10,12 @@ export const Home = () => {
     formState: { errors },
   } = useForm();
   const history = useHistory();
+  const auth = useContext(AuthContext);
 
   const onSubmit = async (data: any) => {
     const { email: username, password } = data;
-    console.log(data);
-    console.log("hmm", username, password);
-    console.log(
-      JSON.stringify({
-        username: "testing42354@gmail.com",
-        password: "Some@#thi54",
-      })
-    );
     await fetch("https://fechallenge.dev.bhyve.io/user/signup", {
       body: JSON.stringify({
-        // username: "testing423rdd54@gmail.com",
-        // password: "Some@#thi54",
         username,
         password,
       }),
@@ -48,7 +40,7 @@ export const Home = () => {
         })
           .then((res) => res.json())
           .then((res) => {
-            setCookie("dd_token", res.accessToken);
+            auth.setToken(res.accessToken);
             history.push("/signup/profile");
           })
           .catch((err) => {

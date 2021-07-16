@@ -1,12 +1,15 @@
-import { useEffect, useState } from "react";
+import classNames from "classnames";
+import { useContext, useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
-import { getCookie } from "react-use-cookie";
 import Dropdown, { DropdownOption } from "../components/Dropdown";
+import AuthContext from "../helpers/auth";
 
 const SignupSkills = () => {
   const [skills, setSkills] = useState<DropdownOption[]>([]);
   const [selected, setSelected] = useState<DropdownOption[]>([]);
+  const auth = useContext(AuthContext);
   const history = useHistory();
+  const [notEnough, setNotEnough] = useState(false);
 
   const handleChange = (sel: DropdownOption[]) => {
     setSelected(sel);
@@ -32,13 +35,17 @@ const SignupSkills = () => {
   }, []);
 
   const handleSubmit = async () => {
+    if (selected.length < 3 || selected.length > 8) {
+      setNotEnough(true);
+      return;
+    }
     await fetch("https://fechallenge.dev.bhyve.io/user/skills", {
       body: JSON.stringify({
         skills: selected.map((x) => x.text),
       }),
       method: "POST",
       headers: {
-        Authorization: `Bearer ${getCookie("dd_token")}`,
+        Authorization: `Bearer ${auth.token}`,
         "Content-Type": "application/json",
         accept: "*/*",
       },
@@ -54,8 +61,10 @@ const SignupSkills = () => {
   return (
     <div className="flex-1 px-12">
       <h1 className="text-2xl text-bold text-gray-800 my-2">Select Skills</h1>
-      <Dropdown onChange={handleChange} options={skills} />
-      <span>Select at least 3 skills (a maximum of 8)</span>
+      <Dropdown onChange={handleChange} options={skills} max={8} />
+      <span className={classNames({ "text-red-700": notEnough })}>
+        Select at least 3 skills (a maximum of 8)
+      </span>
       <button onClick={handleSubmit} className="dd-button block" type="button">
         Submit skills
       </button>

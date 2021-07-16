@@ -1,7 +1,7 @@
-import axios from "axios";
+import { useContext } from "react";
 import { useForm } from "react-hook-form";
-import { Redirect } from "react-router-dom";
-import { setCookie } from "react-use-cookie";
+import { useHistory } from "react-router-dom";
+import AuthContext from "../helpers/auth";
 
 const Login = () => {
   const {
@@ -9,31 +9,27 @@ const Login = () => {
     handleSubmit,
     formState: { errors },
   } = useForm();
+  const auth = useContext(AuthContext);
+  const history = useHistory();
+
   const onSubmit = async (data: any) => {
     const { email, password } = data;
-    console.log(typeof email, typeof password);
-    console.log(
-      JSON.stringify({
+
+    await fetch("https://fechallenge.dev.bhyve.io/user/signin", {
+      body: JSON.stringify({
         username: email,
         password,
-      })
-    );
-    const res = await axios
-      .post("https://fechallenge.dev.bhyve.io/user/login", {
-        body: JSON.stringify({
-          username: email,
-          password,
-        }),
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          accept: "*/*",
-        },
-      })
+      }),
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        accept: "*/*",
+      },
+    })
+      .then((res) => res.json())
       .then((res) => {
-        setCookie("dd_token", res.data.accessToken);
-
-        <Redirect to={{ pathname: "/dashboard" }} />;
+        auth.setToken(res.accessToken);
+        history.push("/dashboard");
       })
       .catch((err) => {
         console.log(err.response);
@@ -51,7 +47,6 @@ const Login = () => {
           className="dd-input_text"
           id="email"
           type="email"
-          defaultValue="test"
           {...register("email", { required: true })}
         />
         {errors.email && <span>This field is required</span>}
