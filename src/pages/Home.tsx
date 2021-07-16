@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import { useForm } from "react-hook-form";
-import { useHistory } from "react-router-dom";
+import { Redirect, useHistory } from "react-router-dom";
 import AuthContext from "../helpers/auth";
 
 export const Home = () => {
@@ -91,6 +91,7 @@ export const Home = () => {
           <input className="dd-button" value="Create Account" type="submit" />
         </form>
       </div>
+      {auth.token !== "" && <Redirect to="/dashboard" />}
     </div>
   );
 };
